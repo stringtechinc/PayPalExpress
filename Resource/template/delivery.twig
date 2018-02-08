@@ -1,0 +1,113 @@
+{% extends 'default_frame.twig' %}
+
+{% set body_class = 'cart_page' %}
+
+{% block javascript %}
+<script>
+    var count = 0;
+    function check() {
+        if (count == 0) {
+            count = 1;
+        } else {
+            alert('只今処理中です。\nそのまましばらくお待ちください。');
+            return false;
+        }
+    }
+</script>
+{% endblock javascript %}
+
+{% block main %}
+    <h1 class="page-heading">配送方法の指定</h1>
+    <div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            {% if is_granted('ROLE_USER') %}
+            <div class="flowline step3">
+                {% else %}
+                <div class="flowline step4">
+                    {% endif %}
+                    <ul class="clearfix">
+                        <li><span class="flow_number">1</span><br>カートの商品</li>
+                        {% if is_granted('ROLE_USER') %}
+                            <li class="active"><span class="flow_number">2</span><br>ご注文内容確認</li>
+                            <li><span class="flow_number">3</span><br>完了</li>
+                        {% else %}
+                            <li><span class="flow_number">2</span><br>お客様情報</li>
+                            <li class="active"><span class="flow_number">3</span><br>ご注文内容確認</li>
+                            <li><span class="flow_number">4</span><br>完了</li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <form id="shopping-form" method="post" action="{{ url('plugin_paypal_express_delivery') }}" onsubmit="return check();">
+        {{ form_widget(form._token) }}
+        <div id="shopping_confirm" class="row">
+            <div id="confirm_main" class="col-sm-8">
+                <div class="cart_item table">
+                    <div class="tbody">
+                        {% for orderDetail in Order.orderDetails %}
+                            <div class="item_box tr">
+                                <div class="td table">
+                                    <div class="item_photo"><img src="{{ app.config.image_save_urlpath }}/{{ orderDetail.product.MainListImage|no_image_product }}" alt="{{ orderDetail.productName }}"/></div>
+                                    <dl class="item_detail">
+                                        <dt class="item_name text-default">{{ orderDetail.productName }}</dt>
+                                        <dd class="item_pattern small">
+                                            {% if orderDetail.productClass.classCategory1 %}
+                                                {{ orderDetail.productClass.classCategory1.className }}：{{ orderDetail.productClass.classCategory1 }}
+                                            {% endif %}
+                                            {% if orderDetail.productClass.classCategory2 %}
+                                                <br>{{ orderDetail.productClass.classCategory2.className }}：{{ orderDetail.productClass.classCategory2 }}
+                                            {% endif %}
+                                        </dd>
+                                        <dd class="item_price">{{ orderDetail.priceIncTax|price }}×{{ orderDetail.quantity }}</dd>
+                                        <dd class="item_subtotal">小計：{{ orderDetail.totalPrice|price }}</dd>
+                                    </dl>
+                                </div>
+                            </div><!--/item_box-->
+                        {% endfor %}
+                    </div>
+                </div>
+                <!--/cart_item-->
+
+                <h2 class="heading02">配送方法</h2>
+
+                <div class="column is-edit">
+                    <div class="form-inline form-group">
+                        {{ form_widget(form.delivery, {'id' : 'delivery'}) }}
+                        {{ form_errors(form.delivery) }}
+                    </div>
+                </div>
+            </div>
+
+            <div id="confirm_side" class="col-sm-4">
+                <div class="total_box">
+                    <p><button type="submit" id="order-button" class="btn btn-primary btn-block">次へ</button></p>
+                    <p><a href="{{ url('cart') }}" class="btn btn-info btn-block">戻る</a></p>
+                </div>
+            </div>
+        </div>
+        </form>
+    </div><!-- /.row -->
+    {% if PayPalExpress.inContext == '1' %}
+        <script>
+            window.paypalCheckoutReady = function () {
+                paypal.checkout.setup('{{ PayPalExpress.apiSignature }}', {
+                    environment: '{{ PayPalExpress.useSandbox ? 'sandbox' : 'production' }}',
+                    condition: function() {
+                        var radioList = document.getElementsByName('paypalexpress_delivery[delivery]');
+                        for (var i = 0; i < radioList.length; i++) {
+                            if (radioList[i].checked) {
+                                return true;
+                            }
+                        }
+                    },
+                    button: 'order-button'
+                });
+            };
+        </script>
+        <script src="//www.paypalobjects.com/api/checkout.js" async></script>
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,23 @@
+{#
+<div class="form-group">
+    <label class="col-sm-2 control-label">HTMLコード</label>
+    <div class="col-sm-10">
+        {{ form_widget(form.payment_paypal_logo, {'attr': {'rows': '6'}}) }}
+        {{ form_errors(form.payment_paypal_logo) }}
+        <div class="help-block">
+            <a href="https://www.paypal.jp/merchant/use/logos-buttons/" target="_blank">クレジットカードのロゴマークデータはこちら</a>
+        </div>
+    </div>
+</div>
+#}
+<div class="form-group form-inline">
+    <label class="col-sm-2 control-label">PayPalロゴ</label>
+    <div class="col-sm-10">
+    {% for child in form.payment_paypal_logo %}
+        {{ form_widget(child) }}
+        <br>
+        <br>
+    {% endfor %}
+    {{ form_errors(form.payment_paypal_logo) }}
+    </div>
+</div>

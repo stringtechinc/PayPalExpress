@@ -1,0 +1,134 @@
+{% extends 'default_frame.twig' %}
+
+{% set body_class = 'cart_page' %}
+
+{% block javascript %}
+<script>
+    var count = 0;
+    function check() {
+        if (count == 0) {
+            count = 1;
+        } else {
+            alert('只今処理中です。\nそのまましばらくお待ちください。');
+            return false;
+        }
+    }
+</script>
+{% endblock javascript %}
+
+{% block main %}
+    <h1 class="page-heading">ご注文内容のご確認</h1>
+    <div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            {% if is_granted('ROLE_USER') %}
+            <div class="flowline step3">
+                {% else %}
+                <div class="flowline step4">
+                    {% endif %}
+                    <ul class="clearfix">
+                        <li><span class="flow_number">1</span><br>カートの商品</li>
+                        {% if is_granted('ROLE_USER') %}
+                            <li class="active"><span class="flow_number">2</span><br>ご注文内容確認</li>
+                            <li><span class="flow_number">3</span><br>完了</li>
+                        {% else %}
+                            <li><span class="flow_number">2</span><br>お客様情報</li>
+                            <li class="active"><span class="flow_number">3</span><br>ご注文内容確認</li>
+                            <li><span class="flow_number">4</span><br>完了</li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="shopping_confirm" class="row">
+            <div id="confirm_main" class="col-sm-8">
+                <div>
+                    PayPal決済画面で指定いただいた住所に送付いたします。<br>
+                    送料が追加・変更されたため、お支払いいただく金額が変更されている可能性がありますので、<br>ご確認ください。<br>
+                    よろしければ、「注文する」ボタンをクリックしてください。
+                </div>
+                <div class="cart_item table">
+                    <div class="tbody">
+                        {% for orderDetail in Order.orderDetails %}
+                            <div class="item_box tr">
+                                <div class="td table">
+                                    <div class="item_photo"><img src="{{ app.config.image_save_urlpath }}/{{ orderDetail.product.MainListImage|no_image_product }}" alt="{{ orderDetail.productName }}"/></div>
+                                    <dl class="item_detail">
+                                        <dt class="item_name text-default">{{ orderDetail.productName }}</dt>
+                                        <dd class="item_pattern small">
+                                            {% if orderDetail.productClass.classCategory1 %}
+                                                {{ orderDetail.productClass.classCategory1.className }}：{{ orderDetail.productClass.classCategory1 }}
+                                            {% endif %}
+                                            {% if orderDetail.productClass.classCategory2 %}
+                                                <br>{{ orderDetail.productClass.classCategory2.className }}：{{ orderDetail.productClass.classCategory2 }}
+                                            {% endif %}
+                                        </dd>
+                                        <dd class="item_price">{{ orderDetail.priceIncTax|price }}×{{ orderDetail.quantity }}</dd>
+                                        <dd class="item_subtotal">小計：{{ orderDetail.totalPrice|price }}</dd>
+                                    </dl>
+                                </div>
+                            </div><!--/item_box-->
+                        {% endfor %}
+                    </div>
+                </div>
+                <!--/cart_item-->
+                <h2 class="heading02">お客様情報</h2>
+                <div class="column is-edit">
+                    <p class="address"><span class="customer-edit customer-name01">{{ Order.name01 }}</span> <span class="customer-edit customer-name02">{{ Order.name02 }}</span> 様<br>
+                        〒<span class="customer-edit customer-zip01">{{ Order.zip01 }}</span>-<span class="customer-edit customer-zip02">{{ Order.zip02 }}</span> <span class="customer-edit customer-pref">{{ Order.pref }}</span><span class="customer-edit customer-addr01">{{ Order.addr01 }}</span><span class="customer-edit customer-addr02">{{ Order.addr02 }}</span><br>
+                        {% if Order.tel01 is not null %}
+                        <span class="customer-edit customer-tel01">{{ Order.tel01 }}</span>-<span class="customer-edit customer-tel02">{{ Order.tel02 }}</span>-<span class="customer-edit customer-tel03">{{ Order.tel03 }}</span></p>
+                    {% endif %}
+                    {% if is_granted('ROLE_USER') == false %}
+                        <div class="mod-button" style="display:none;">
+                            <span id="customer-ok"><button type="button" class="btn btn-default btn-sm">OK</button></span>
+                            <span id="customer-cancel"><button type="button" class="btn btn-default btn-sm">キャンセル</button></span>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <h2 class="heading02">お届け先情報</h2>
+
+                <div class="column is-edit">
+                    <p class="address">{{ Order.shippings[0].name01 }} {{ Order.shippings[0].name02 }} 様<br>
+                        〒{{ Order.shippings[0].zip01 }}
+                        -{{ Order.shippings[0].zip02 }} {{ Order.shippings[0].pref }}{{ Order.shippings[0].addr01 }}{{ Order.shippings[0].addr02 }}
+                        <br>
+                        {% if Order.shippings[0].tel01 is not null %}
+                        {{ Order.shippings[0].tel01 }}-{{ Order.shippings[0].tel02 }}-{{ Order.shippings[0].tel03 }}</p>
+                    {% endif %}
+                    <div class="form-inline form-group">
+                        <label>配送方法</label>
+                        <div>{{ Order.shippings[0].delivery.name }}</div>
+                    </div>
+                    <h2 class="heading02">お支払方法</h2>
+                    <div class="column">
+                        <div>{{ Order.payment.method }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="confirm_side" class="col-sm-4">
+                <div class="total_box">
+                    <dl>
+                        <dt>小計</dt>
+                        <dd class="text-primary">{{ Order.subtotal|price }}</dd>
+                    </dl>
+                    <dl>
+                        <dt>手数料</dt>
+                        <dd>{{ Order.charge|price }}</dd>
+                    </dl>
+                    <dl>
+                        <dt>送料</dt>
+                        <dd>{{ Order.deliveryFeeTotal|price }}</dd>
+                    </dl>
+                    <div class="total_amount">
+                        <p class="total_price">合計 <strong class="text-primary">{{ Order.total|price }}<span class="small">税込</span></strong></p>
+                        <p><a href="{{ url('plugin_paypal_express_complete') }}" class="btn btn-primary btn-block" onclick="return check();">注文する</a></p>
+                        <p><a href="{{ url('cart') }}" class="btn btn-info btn-block">戻る</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- /.row -->
+{% endblock %}

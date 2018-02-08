@@ -1,0 +1,7 @@
+# realdir:plugin
+paypal_html_realdir: /html/plugin/paypalexpress
+paypal_img_realdir: /html/plugin/paypalexpress/assets/img
+
+# urlpath
+paypal_urlpath: /plugin/paypalexpress
+paypal_img_urlpath: /plugin/paypalexpress/assets/img

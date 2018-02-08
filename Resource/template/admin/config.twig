@@ -1,0 +1,189 @@
+{% extends 'PayPalExpress/Resource/template/admin/config_frame.twig' %}
+
+{% set menus = ['store', 'plugin', 'plugin_list'] %}
+
+{% block config_header %}
+    {% block title %}ペイパル エクスプレス チェックアウト 決済{% endblock %}
+    {% block sub_title %}{% endblock %}
+
+    {% form_theme form 'Form/bootstrap_3_horizontal_layout.html.twig' %}
+
+    {% block stylesheet %}
+        {{ parent() }}
+        <link rel="stylesheet" href="{{ app.config.root_urlpath }}{{ app.config.paypal_urlpath }}/assets/css/spectrum.css">
+    {% endblock stylesheet %}
+    {% block javascript %}
+        {{ parent() }}
+        <script src="{{ app.config.root_urlpath }}{{ app.config.paypal_urlpath }}/assets/js/spectrum.js"></script>
+        <script src="{{ app.config.root_urlpath }}{{ app.config.paypal_urlpath }}/assets/js/jquery.spectrum-ja.js"></script>
+        <script>
+            $(function () {
+                $('#border').spectrum({
+                    preferredFormat: 'hex',
+                    color: '{{ PayPalExpress.border_color }}',
+                    showInput: true,
+                    showInitial: true
+                });
+                $('#logo-delete').click(function() {
+                    $('#corporate_logo').val('');
+                    $('#img-logo').remove();
+                    $(this).remove();
+                });
+                $('#signature').click(function(event) {
+                    event.preventDefault();
+                    var url = '';
+                    if ($('#use_sandbox').prop('checked')) {
+                        url = '{{ app.config.paypal_express_signature_url_sandbox }}';
+                    } else {
+                        url = '{{ app.config.paypal_express_signature_url }}';
+                    }
+                    window.open(url, 'signature', 'width=460, height=600');
+                });
+            });
+        </script>
+    {% endblock javascript %}
+{% endblock config_header %}
+
+{% block config_main %}
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <iframe src="https://www.ec-cube.net/paypal_info/set01.php"
+                    style="width: 564px; height: 320px; margin-bottom: 18px;"
+                    scrolling="no"
+                    marginwidth="0"
+                    marginheight="0"
+                    frameborder="0">
+            </iframe>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <form class="form-horizontal" method="post" action="{{ url('plugin_PayPalExpress_config') }}" {{ form_enctype(form) }}>
+                {{ form_widget(form._token) }}
+                <div class="form-group {% if form.api_user.vars.errors|length %} has-error {% endif %}">
+                    <label class="col-sm-4 control-label">APIユーザー名 <span class="text-danger">*</span></label>
+                    <div class="col-sm-8">
+                        {{ form_widget(form.api_user) }}
+                        {{ form_errors(form.api_user) }}
+                        <span class="help-block">API署名の情報は<a href="#" id="signature">こちら</a>から取得可能です</span>
+                    </div>
+                </div>
+                <div class="form-group {% if form.api_password.vars.errors|length %} has-error {% endif %}">
+                    <label class="col-sm-4 control-label">APIパスワード <span class="text-danger">*</span></label>
+                    <div class="col-sm-8">
+                        {{ form_widget(form.api_password, {'type': 'password'}) }}
+                        {{ form_errors(form.api_password) }}
+                    </div>
+                </div>
+                <div class="form-group {% if form.api_signature.vars.errors|length %} has-error {% endif %}">
+                    <label class="col-sm-4 control-label">API署名 <span class="text-danger">*</span></label>
+                    <div class="col-sm-8">
+                        {{ form_widget(form.api_signature) }}
+                        {{ form_errors(form.api_signature) }}
+                    </div>
+                </div>
+                <div class="form-group {% if form.use_express_btn.vars.errors|length %} has-error {% endif %}">
+                    <div class="col-sm-4">
+                        <label>「PayPalで購入手続きに進む」ボタンの使用</label>
+                        <img class="img-responsive" src="{{ app.config.paypal_express_checkout_image_url }}" alt="PayPalで購入手続きに進む">
+                    </div>
+                    <div class="col-sm-8">
+                        <label>
+                            {{ form_widget(form.use_express_btn) }} 「PayPalで購入手続きに進む」ボタンを使用する
+                        </label>
+                        {{ form_errors(form.use_express_btn) }}
+                        <span class="help-block">※ 購入時に「PayPalで購入手続きに進む」ボタンをカート画面に表示させる場合はチェックを入れて下さい。顧客は PayPal でお支払い方法と配送先を選択しますので、スムーズに購入を完了できます</span>
+                    </div>
+                </div>
+                <div class="form-group {% if form.logo.vars.errors|length %} has-error {% endif %}">
+                    <label class="col-sm-4 control-label">PayPal決済ページショップロゴ画像の設定</label>
+                    <div class="col-sm-8">
+                        {{ form_widget(form.logo, {'attr': {'accept': 'image/jpeg,image/gif,image/png'}}) }}
+                        {{ form_errors(form.logo) }}
+                        <span class="help-block">※ 縦60px, 横190px, jpg, png, gif のショップロゴ画像をアップロード可能です</span>
+                    {% if form.corporate_logo.vars.value %}
+                        <img src="{{ app.config.root_urlpath }}{{ app.config.paypal_img_urlpath }}/{{ form.corporate_logo.vars.value }}"
+                             id="img-logo" width="120">
+                        <button type="button" id="logo-delete">削除</button>
+                        {{ form_widget(form.corporate_logo, {'id': 'corporate_logo'}) }}
+                    {% endif %}
+                    </div>
+                </div>
+                <div class="form-group {% if form.border_color.vars.errors|length %} has-error {% endif %}">
+                    <label class="col-sm-4 control-label">PayPal決済ページ枠色の設定</label>
+                    <div class="col-sm-8">
+                        {{ form_widget(form.border_color, {'id': 'border'}) }}
+                        {{ form_errors(form.border_color) }}
+                        <span class="help-block">※ショップロゴを登録して、枠色の設定をすることによりPayPal決済画面をECサイトのデザインに合わせることができます。</span>
+                    </div>
+                </div>
+                <div class="form-group {% if form.use_sandbox.vars.errors|length %} has-error {% endif %}">
+                    <label class="col-sm-4">Sandbox(開発用テストツール)の使用</label>
+                    <div class="col-sm-8">
+                        <label>
+                        {{ form_widget(form.use_sandbox, {'id': 'use_sandbox'}) }} Sandboxを使用する
+                        </label>
+                        {{ form_errors(form.use_sandbox) }}
+                    </div>
+                </div>
+                {#
+                <div class="form-group">
+                    <label class="col-sm-4">HTMLコード</label>
+                    <div class="col-sm-8">
+                        {{ form_widget(form.paypal_logo, {'attr': {'rows': '6'}}) }}
+                        {{ form_errors(form.paypal_logo) }}
+                        <div class="help-block">
+                            <a href="https://www.paypal.jp/merchant/use/logos-buttons/" target="_blank">クレジットカードのロゴマークデータはこちら</a>
+                        </div>
+                    </div>
+                </div>
+                #}
+                <div class="form-group form-inline">
+                    <div class="col-sm-4">
+                        <label class="control-label">PayPalロゴ</label>
+                        <p class="text-muted">ECサイトにPayPalロゴを表示します。コンテンツ管理にて表示場所を設定することができます。</p>
+                    </div>
+                    <div class="col-sm-8">
+                        {% for child in form.paypal_logo %}
+                            {{ form_widget(child) }}
+                            {% autoescape false %}
+                                {{ child.vars.label }}
+                            {% endautoescape %}
+                            <br>
+                            <br>
+                        {% endfor %}
+                        {{ form_errors(form.paypal_logo) }}
+                    </div>
+                </div>
+                <div class="form-group {% if form.in_context.vars.errors|length %} has-error {% endif %}">
+                    <label class="col-sm-4">In-Context機能を使用</label>
+                    <div class="col-sm-8">
+                        <label>
+                            {{ form_widget(form.in_context, {'id': 'in_context'}) }}
+                        </label>
+                        {{ form_errors(form.in_context) }}
+                        <span class="help-block">※In-Contextを利用すると画面遷移型からポップアップ型のチェックアウトになり、コンバージョン率アップが期待できます。</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-6">
+                        <button type="submit" class="btn btn-primary btn-lg btn-block">入力した内容で登録</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <iframe id="form"
+                    src="https://f.msgs.jp/webapp/form/15935_xox_114/index.do"
+                    style="width: 560px; height: 740px; margin-bottom: 18px;"
+                    scrolling="no"
+                    marginwidth="0"
+                    marginheight="0"
+                    frameborder="0">
+            </iframe>
+        </div>
+    </div>
+{% endblock config_main %}

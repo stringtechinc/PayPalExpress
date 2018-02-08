@@ -1,0 +1,50 @@
+Plugin\PayPalExpress\Entity\PayPalExpress:
+    type: entity
+    table: plg_paypal_express
+    repositoryClass: Plugin\PayPalExpress\Repository\PayPalExpressRepository
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            id: true
+            column: paypal_id
+    fields:
+        api_user:
+            type: text
+            nullable: true
+        api_password:
+            type: text
+            nullable: true
+        api_signature:
+            type: text
+            nullable: true
+        use_express_btn:
+            type: boolean
+            nullable: true
+        corporate_logo:
+            type: text
+            nullable: true
+        border_color:
+            type: text
+            nullable: true
+        use_sandbox:
+            type: boolean
+            nullable: true
+        paypal_logo:
+            type: text
+            nullable: true
+        payment_paypal_logo:
+            type: text
+            nullable: true
+        is_configured:
+            type: smallint
+            nullable: true
+        payment_id:
+            type: integer
+            nullable: false
+            unsigned: false
+        in_context:
+            type: text
+            nullable: true
+    lifecycleCallbacks: {  }

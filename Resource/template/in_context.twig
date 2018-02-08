@@ -1,0 +1,10 @@
+<script>
+    window.paypalCheckoutReady = function () {
+        paypal.checkout.setup('{{ PayPalExpress.apiSignature }}', {
+            environment: '{{ PayPalExpress.useSandbox ? 'sandbox' : 'production' }}',
+            button: 'order-button'
+        });
+    };
+</script>
+<script src="//www.paypalobjects.com/api/checkout.js" async></script>
+

@@ -1,0 +1,14 @@
+eccube.event.render.cart.before:
+  - [onRenderPayPalExpressCartBefore, NORMAL]
+
+eccube.event.render.shopping_login.before:
+  - [onRenderPayPalExpressShoppingLoginBefore, NORMAL]
+
+eccube.event.render.shopping_nonmember.before:
+  - [onRenderPayPalExpressShoppingNonmemberBefore, NORMAL]
+
+eccube.event.render.shopping.before:
+  - [onRenderPayPalExpressShoppingBefore, NORMAL]
+
+eccube.event.render.admin_setting_shop_payment_edit.before:
+  - [onRenderPayPalExpressAdminPaymentBefore, NORMAL]

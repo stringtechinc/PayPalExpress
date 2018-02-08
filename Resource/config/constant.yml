@@ -1,0 +1,27 @@
+# paypalでチェックアウトボタン画像url
+paypal_express_checkout_image_url: https://www.paypalobjects.com/webstatic/ja_JP/i/buttons/checkout-logo-large-jp.png
+# 管理画面のAPI署名に対するURL
+paypal_express_signature_url: https://www.paypal.com/jp/ja/cgi-bin/webscr?cmd=_get-api-signature&generic-flow=true
+paypal_express_signature_url_sandbox: https://www.sandbox.paypal.com/jp/ja/cgi-bin/webscr?cmd=_get-api-signature&generic-flow=true
+# payaplエンドポイント
+paypal_express_endpoint: https://api-3t.paypal.com/nvp
+paypal_express_endpoint_sandbox: https://api-3t.sandbox.paypal.com/nvp
+paypal_express_currency_code: JPY
+paypal_express_country_code: JP
+paypal_express_version: 124
+paypal_express_paymentaction: Sale
+# paypal決済画面url
+paypal_express_paypal_url: https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout
+paypal_express_paypal_url_sandbox: https://www.sandbox.paypal.com/webscr?cmd=_express-checkout
+paypal_express_notetobuyer: 送料はこの後のご購入サイトの注文内容確認画面でご確認ください。
+# paypalロゴ
+paypal_express_paypal_logo_1: <a href="#paypal-logo" id="paypal-logo" onclick="javascript:window.open('https://www.paypal.jp/jp/contents/popup/logo/SG_mc_vs_am_jcb_JP_203_80/','olcwhatispaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=900, height=700');"><img src="https://www.paypal.jp/uploadedImages/wwwpaypaljp/Supporting_Content/jp/contents/popup/logo/SG_mc_vs_am_jcb_JP_203_80.png" border="0" alt="その他のオプション"></a>
+paypal_express_paypal_logo_2: <a href="#paypal-logo" id="paypal-logo" onclick="javascript:window.open('https://www.paypal.jp/jp/contents/popup/logo/SG_mc_vs_am_jcb_JP/','olcwhatispaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=900, height=700');"><img src="https://www.paypal.jp/uploadedImages/wwwpaypaljp/Supporting_Content/jp/contents/popup/logo/SG_mc_vs_am_jcb_JP.png" border="0" alt="その他のオプション"></a>
+paypal_express_paypal_logo_3: <a href="#paypal-logo" id="paypal-logo" onclick="javascript:window.open('https://www.paypal.jp/jp/contents/popup/logo/SG_mc_vs_am_jcb_JP_148_139/','olcwhatispaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=900, height=700');"><img src="https://www.paypal.jp/uploadedImages/wwwpaypaljp/Supporting_Content/jp/contents/popup/logo/SG_mc_vs_am_jcb_JP_148_139.png" border="0" alt="その他のオプション"></a>
+# 支払方法で表示するpaypalロゴ
+paypal_express_payment_paypal_logo_1: <a href="#paypal-payment" id="paypal-payment" onclick="javascript:window.open('https://www.paypal.jp/jp/contents/popup/logo/AM_190_65/','olcwhatispaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=900, height=700');"><img src="https://www.paypal.jp/uploadedImages/wwwpaypaljp/Supporting_Content/jp/contents/popup/logo/AM_190_65.png" border="0" alt="その他のオプション"></a>
+paypal_express_payment_paypal_logo_2: <a href="#paypal-payment" id="paypal-payment" onclick="javascript:window.open('https://www.paypal.jp/jp/contents/popup/logo/AM_200_80/','olcwhatispaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=900, height=700');"><img src="https://www.paypal.jp/uploadedImages/wwwpaypaljp/Supporting_Content/jp/contents/popup/logo/AM_200_80.png" border="0" alt="その他のオプション"></a>
+paypal_express_payment_paypal_logo_3: <a href="#paypal-payment" id="paypal-payment" onclick="javascript:window.open('https://www.paypal.jp/jp/contents/popup/logo/AM_235_65/','olcwhatispaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=900, height=700');"><img src="https://www.paypal.jp/uploadedImages/wwwpaypaljp/Supporting_Content/jp/contents/popup/logo/AM_235_65.png" border="0" alt="その他のオプション"></a>
+paypal_express_payment_description: ペイパルは、インターネット上の便利な【デジタルおさいふ】です。ペイパルにクレジットカード情報を登録しておけば、IDとパスワードだけで決済完了。お店に大切なカード情報を知らせることなく、より安全に支払いができます。ペイパルアカウントの開設は、決済方法でPayPalを選択して必要事項を入力するだけなのでかんたんです。
+# BUTTONSOURCE
+paypal_express_buttonsource: EC-CUBE_cart_EC_JP

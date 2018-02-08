@@ -1,0 +1,3 @@
+admin.paypal_express.save.complete: 保存しました。
+paypal_express_checkout.payment.error: 支払方法が設定されていません。
+paypal_express_checkout.delivery.error: 配送業者が存在しません。

@@ -1,0 +1,22 @@
+{% extends 'PayPalExpress/Resource/template/admin/config_frame.twig' %}
+
+{% set menus = ['store', 'plugin', 'plugin_list'] %}
+
+{% block config_header %}
+    {% block title %}ペイパル エクスプレス チェックアウト 決済{% endblock %}
+    {% block sub_title %}{% endblock %}
+{% endblock config_header %}
+
+{% block config_main %}
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <iframe src="https://www.ec-cube.net/paypal_info/set02.php"
+                    style="width:561px;height:550px;margin-bottom: 18px;"
+                    scrolling="no"
+                    marginwidth="0"
+                    marginheight="0"
+                    frameborder="0">
+            </iframe>
+        </div>
+    </div>
+{% endblock config_main %}

@@ -1,0 +1,12 @@
+<script>
+    var count = 0;
+    function check() {
+        if (count == 0) {
+            count = 1;
+        } else {
+            alert('只今処理中です。\nそのまましばらくお待ちください。');
+            return false;
+        }
+    }
+</script>
+<form id="shopping-form" method="post" action="{{ url('plugin_paypal_express_payment_checkout') }}" onsubmit="return check();">

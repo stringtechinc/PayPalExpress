@@ -1,0 +1,8 @@
+name: PayPalExpress
+code: PayPalExpress
+version: 1.0.6
+service:
+  - PayPalExpressServiceProvider
+orm.path:
+  - /Resource/doctrine
+event: PayPalExpressEvent

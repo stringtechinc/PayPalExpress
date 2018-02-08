@@ -1,0 +1,31 @@
+<h1 class="page-heading">PayPalで購入手続きに進む</h1>
+<div class="container-fluid">
+    <div class="row">
+        <div>
+            「PayPalで購入手続きに進む」をクリックすると、よりスピーディで、より安全に、お支払いが可能になります。<br>
+            お届け先もPayPal画面でご指定ください。
+        </div>
+        <div class="col-sm-4 col-sm-offset-4">
+            <div class="column">
+                <div class="column_inner">
+                    <p>
+                        <a id="order-button" href="{{ url('plugin_paypal_express_shortcut_checkout') }}" onclick="return check();">
+                            <img src="{{ app.config.paypal_express_checkout_image_url }}" alt="PayPalで購入手続きに進む">
+                        </a>
+                    </p>
+                </div>
+            </div>
+         </div><!-- /.col -->
+    </div>
+</div>
+<script>
+    var count = 0;
+    function check() {
+        if (count == 0) {
+            count = 1;
+        } else {
+            alert('只今処理中です。\nそのまましばらくお待ちください。');
+            return false;
+        }
+    }
+</script>

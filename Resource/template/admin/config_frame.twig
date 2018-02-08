@@ -1,0 +1,25 @@
+{% extends 'default_frame.twig' %}
+
+{% block config_header %}{% endblock %}
+
+{% block stylesheet %}
+    <style>
+        #header .navbar .logo {
+            display: table-cell;
+            background: #2f3f4e;
+            margin: 0;
+            font-size: 20px;
+            font-weight: 300;
+            width: 230px; height: 64px;
+            line-height: 64px;
+            padding: 0 15px;
+            text-align: center;
+            border-right: 1px solid #293744;
+            border-bottom: 1px solid #293744;
+        }
+    </style>
+{% endblock stylesheet %}
+
+{% block main %}
+    {% block config_main %}{% endblock %}
+{% endblock main %}

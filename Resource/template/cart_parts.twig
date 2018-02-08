@@ -1,0 +1,16 @@
+<p>
+    <a id="order-button" href="{{ url('plugin_paypal_express_shortcut_checkout') }}" onclick="return check();">
+        <img src="{{ app.config.paypal_express_checkout_image_url }}" alt="PayPalで購入手続きに進む">
+    </a>
+</p>
+<script>
+    var count = 0;
+    function check() {
+        if (count == 0) {
+            count = 1;
+        } else {
+            alert('只今処理中です。\nそのまましばらくお待ちください。');
+            return false;
+        }
+    }
+</script>
